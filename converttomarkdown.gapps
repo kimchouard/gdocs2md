@@ -74,9 +74,9 @@ function ConvertToMarkdown() {
   attachments.push({"fileName":docName+".md", "mimeType": "text/plain", "content": text});
   
   MailApp.sendEmail(Session.getActiveUser().getEmail(), 
-                    "[MARKDOWN_MAKER] "+docName, 
+                    "[MARKDOWN_MAKER for the Knowledge Wall] "+docName, 
                     "Your converted markdown document is attached (converted from "+DocumentApp.getActiveDocument().getUrl()+")"+
-                    "\n\nDon't know how to use the format options? See http://github.com/mangini/gdocs2md\n",
+                    "\n\See the Knowledge Wall on more instruction on how to convert this markdown in an article: https://knowledgewall.herokuapp.com\n",
                     { "attachments": attachments });
 }
 
