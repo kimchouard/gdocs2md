@@ -21,14 +21,14 @@ function ConvertToMarkdown() {
   var srcIndent = "";
   
   // Process the doc name
-  var docName = DocumentApp.getActiveDocument().getName().replace(" ", "_");
+  var docName = DocumentApp.getActiveDocument().getName().replace(/ /gi, "_");
   
   var attachments = [];
   
   // Walk through all the child elements of the doc.
   for (var i = 0; i < numChildren; i++) {
     var child = DocumentApp.getActiveDocument().getActiveSection().getChild(i);
-    var result = processParagraph(i, child, inSrc, globalImageCounter, globalListCounters);
+    var result = processParagraph(i, child, inSrc, globalImageCounter, globalListCounters, docName);
     globalImageCounter += (result && result.images) ? result.images.length : 0;
     if (result!==null) {
       if (result.sourcePretty==="start" && !inSrc) {
@@ -71,7 +71,7 @@ function ConvertToMarkdown() {
       
   }
   
-  attachments.push({"fileName":DocumentApp.getActiveDocument().getName()+".md", "mimeType": "text/plain", "content": text});
+  attachments.push({"fileName":docName+".md", "mimeType": "text/plain", "content": text});
   
   MailApp.sendEmail(Session.getActiveUser().getEmail(), 
                     "[MARKDOWN_MAKER] "+docName, 
@@ -85,7 +85,7 @@ function escapeHTML(text) {
 }
 
 // Process each child element (not just paragraphs).
-function processParagraph(index, element, inSrc, imageCounter, listCounters) {
+function processParagraph(index, element, inSrc, imageCounter, listCounters, docName) {
   // First, check for things that require no processing.
   if (element.getNumChildren()==0) {
     return null;
