@@ -20,6 +20,9 @@ function ConvertToMarkdown() {
   // edbacher: added a variable for indent in src <pre> block. Let style sheet do margin.
   var srcIndent = "";
   
+  // Process the doc name
+  var docName = DocumentApp.getActiveDocument().getName().replace(" ", "_");
+  
   var attachments = [];
   
   // Walk through all the child elements of the doc.
@@ -71,7 +74,7 @@ function ConvertToMarkdown() {
   attachments.push({"fileName":DocumentApp.getActiveDocument().getName()+".md", "mimeType": "text/plain", "content": text});
   
   MailApp.sendEmail(Session.getActiveUser().getEmail(), 
-                    "[MARKDOWN_MAKER] "+DocumentApp.getActiveDocument().getName(), 
+                    "[MARKDOWN_MAKER] "+docName, 
                     "Your converted markdown document is attached (converted from "+DocumentApp.getActiveDocument().getUrl()+")"+
                     "\n\nDon't know how to use the format options? See http://github.com/mangini/gdocs2md\n",
                     { "attachments": attachments });
@@ -96,7 +99,7 @@ function processParagraph(index, element, inSrc, imageCounter, listCounters) {
   var result = {};
   var pOut = "";
   var textElements = [];
-  var imagePrefix = "image_";
+  var imagePrefix = docName+"_";
   
   // Handle Table elements. Pretty simple-minded now, but works for simple tables.
   // Note that Markdown does not process within block-level HTML, so it probably 
