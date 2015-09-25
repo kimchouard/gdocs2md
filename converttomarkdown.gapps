@@ -143,7 +143,7 @@ function processParagraph(index, element, inSrc, imageCounter, listCounters, doc
       }
       var name = imagePrefix + imageCounter + extension;
       imageCounter++;
-      textElements.push('![image alt text]('+name+')');
+      textElements.push('![image alt text](https://knowledgewall.herokuapp.com/images/'+name+')');
       result.images.push( {
         "bytes": element.getChild(i).getBlob().getBytes(), 
         "type": contentType, 
